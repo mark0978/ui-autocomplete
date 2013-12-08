@@ -160,7 +160,10 @@ angular.module('ui.autocomplete', [])
             select: function (event, ui) {
               selectItem = ui;
               $timeout(function () {
-                element.blur();
+                // HACK:  Move cursor to next field, which better come after this one in the DOM
+                var inputs = $(element).closest('form').find(':input');
+                inputs.eq( inputs.index(element)+ 1 ).focus();
+                //element.blur();  //Alternative choice would be to just abanon the focus and go on walkabout
               }, 0);
             },
             change: function (event, ui) {
